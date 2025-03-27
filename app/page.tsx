@@ -22,7 +22,7 @@ export default function Home() {
                 Available for work
               </Badge>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                Hi, I'm <span className="text-primary">Alex</span>
+                Hi, I'm <span className="text-primary">Sugam Shrestha</span>
               </h1>
               <p className="text-xl text-muted-foreground">
                 A passionate full-stack developer crafting beautiful and functional web experiences.
@@ -278,7 +278,9 @@ export default function Home() {
       <footer className="py-8 border-t">
         <div className="container px-4 mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-muted-foreground">© {new Date().getFullYear()} Alex Smith. All rights reserved.</div>
+            <div className="text-muted-foreground">
+              © {new Date().getFullYear()} Sugam Shrestha. All rights reserved.
+            </div>
             <div className="flex gap-6">
               <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">
                 About
