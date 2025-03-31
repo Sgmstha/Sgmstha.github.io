@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Professional Portfolio</title>
+  <title>Sugam Shrestha | Portfolio</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
   <header>
     <div class="container">
       <nav>
-        <div class="logo">Portfolio</div>
+        <div class="logo">Sugam Shrestha</div>
         <ul class="nav-links">
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About</a></li>
@@ -33,11 +33,11 @@
     <div class="container">
       <div class="hero-content">
         <h1>Hello, I'm <span class="highlight">Sugam Shrestha</span></h1>
-        <h2>Web Developer & Designer</h2>
-        <p>I create beautiful, functional websites and applications.</p>
+        <h2>Full-Stack Developer</h2>
+        <p>I create responsive, user-friendly websites and applications with clean, efficient code.</p>
         <div class="cta-buttons">
-          <a href="#projects" class="btn primary-btn">View My Work</a>
-          <a href="#contact" class="btn secondary-btn">Contact Me</a>
+          <a href="#projects" class="btn primary-btn" aria-label="View my work - go to projects section">View My Work</a>
+          <a href="#contact" class="btn secondary-btn" aria-label="Contact me - go to contact form">Contact Me</a>
         </div>
       </div>
     </div>
@@ -49,33 +49,57 @@
       <div class="about-content">
         <div class="about-image">
           <div class="image-container">
-            <img src="pfp.jpg" alt="Profile Photo">
+            <img src="pfp.jpg" alt="Sugam Shrestha Profile Photo">
           </div>
         </div>
         <div class="about-text">
           <h3>Who am I?</h3>
-          <p>I'm a passionate web developer with a strong foundation in HTML, CSS, and JavaScript. I enjoy creating responsive, user-friendly websites that solve real-world problems.</p>
-          <p>With 1+ years of experience in the industry, I've worked on a variety of projects ranging from small business websites to complex web applications.</p>
-          <h3>My Approach</h3>
-          <p>I believe in clean, efficient code and thoughtful design. Every project I undertake is built with user experience and performance in mind.</p>
+          <p>I'm a passionate full-stack developer with a strong foundation in HTML, CSS, JavaScript, and Python. I enjoy creating responsive, user-friendly websites and applications that solve real-world problems.</p>
+          
+          <h3>Experience & Certifications</h3>
+          <div class="experience-item">
+            <h4><i class="fas fa-briefcase"></i> Internship at Webniza</h4>
+            <p>Completed a comprehensive internship at Webniza, where I gained hands-on experience in full-stack development, working with modern web technologies and best practices.</p>
+          </div>
+          
+          <div class="certification-item">
+            <h4><i class="fas fa-certificate"></i> Full-Stack Certificate</h4>
+            <p>Received a full-stack development certificate from Webniza, validating my skills in both frontend and backend technologies.</p>
+          </div>
+          
+          <div class="certification-item">
+            <h4><i class="fas fa-certificate"></i> Python Training Certificate</h4>
+            <p>Completed a one-month Python training program certified by the government, enhancing my programming skills and problem-solving abilities.</p>
+          </div>
+          
           <div class="personal-info">
             <div class="info-item">
               <span class="info-title">Name:</span>
               <span class="info-value">Sugam Shrestha</span>
-            </div> 
+            </div>
             <div class="info-item">
               <span class="info-title">Email:</span>
-              <span class="info-value">your.email@example.com</span>
+              <span class="info-value">sugam.shrestha@example.com</span>
+            </div>
+            <div class="info-item">
+              <span class="info-title">Phone:</span>
+              <span class="info-value">+977 9847852643</span>
             </div>
             <div class="info-item">
               <span class="info-title">Location:</span>
-              <span class="info-value">Your City, Country</span>
-            </div>
-            <div class="info-item">
-              <span class="info-title">Availability:</span>
-              <span class="info-value">Available for Freelance</span>
+              <span class="info-value">Nepal</span>
             </div>
           </div>
+          
+          <div class="social-profiles">
+            <a href="https://www.linkedin.com/in/sugam-shrestha-67682a29b/" target="_blank" class="social-btn">
+              <i class="fab fa-linkedin-in"></i> LinkedIn
+            </a>
+            <a href="https://github.com/Sgmstha" target="_blank" class="social-btn">
+              <i class="fab fa-github"></i> GitHub
+            </a>
+          </div>
+          
           <a href="#" class="btn primary-btn download-btn">Download Resume</a>
         </div>
       </div>
@@ -88,18 +112,18 @@
       <div class="project-filters">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="web">Web Development</button>
-        <button class="filter-btn" data-filter="design">Design</button>
-        <button class="filter-btn" data-filter="app">Applications</button>
+        <button class="filter-btn" data-filter="python">Python</button>
+        <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
       </div>
       <div class="projects-grid">
         <!-- Project 1 -->
         <div class="project-card" data-category="web">
           <div class="project-img">
-            <img src="/placeholder.svg?height=300&width=500" alt="Project 1">
+            <img src="/placeholder.svg?height=300&width=500" alt="E-commerce Website">
           </div>
           <div class="project-info">
             <h3>E-commerce Website</h3>
-            <p>A fully responsive e-commerce platform built with HTML, CSS, and JavaScript.</p>
+            <p>A fully responsive e-commerce platform built with HTML, CSS, and JavaScript. Features include product filtering, cart functionality, and responsive design.</p>
             <div class="project-tags">
               <span>HTML</span>
               <span>CSS</span>
@@ -107,47 +131,47 @@
             </div>
             <div class="project-links">
               <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-              <a href="#" class="project-link"><i class="fab fa-github"></i> Source Code</a>
+              <a href="https://github.com/Sgmstha" class="project-link"><i class="fab fa-github"></i> Source Code</a>
             </div>
           </div>
         </div>
         
         <!-- Project 2 -->
-        <div class="project-card" data-category="design">
+        <div class="project-card" data-category="python">
           <div class="project-img">
-            <img src="/placeholder.svg?height=300&width=500" alt="Project 2">
+            <img src="/placeholder.svg?height=300&width=500" alt="Data Analysis Tool">
           </div>
           <div class="project-info">
-            <h3>Portfolio Design</h3>
-            <p>A modern portfolio design with smooth animations and interactive elements.</p>
+            <h3>Data Analysis Tool</h3>
+            <p>A Python-based data analysis tool that processes and visualizes complex datasets. Implemented during my Python training program.</p>
             <div class="project-tags">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JavaScript</span>
+              <span>Python</span>
+              <span>Pandas</span>
+              <span>Matplotlib</span>
             </div>
             <div class="project-links">
               <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-              <a href="#" class="project-link"><i class="fab fa-github"></i> Source Code</a>
+              <a href="https://github.com/Sgmstha" class="project-link"><i class="fab fa-github"></i> Source Code</a>
             </div>
           </div>
         </div>
         
         <!-- Project 3 -->
-        <div class="project-card" data-category="app">
+        <div class="project-card" data-category="fullstack">
           <div class="project-img">
-            <img src="/placeholder.svg?height=300&width=500" alt="Project 3">
+            <img src="/placeholder.svg?height=300&width=500" alt="Task Management App">
           </div>
           <div class="project-info">
             <h3>Task Management App</h3>
-            <p>A task management application with drag-and-drop functionality.</p>
+            <p>A full-stack task management application with user authentication, task creation, and progress tracking. Developed during my internship at Webniza.</p>
             <div class="project-tags">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JavaScript</span>
+              <span>React</span>
+              <span>Node.js</span>
+              <span>MongoDB</span>
             </div>
             <div class="project-links">
               <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-              <a href="#" class="project-link"><i class="fab fa-github"></i> Source Code</a>
+              <a href="https://github.com/Sgmstha" class="project-link"><i class="fab fa-github"></i> Source Code</a>
             </div>
           </div>
         </div>
@@ -155,11 +179,11 @@
         <!-- Project 4 -->
         <div class="project-card" data-category="web">
           <div class="project-img">
-            <img src="/placeholder.svg?height=300&width=500" alt="Project 4">
+            <img src="/placeholder.svg?height=300&width=500" alt="Portfolio Website">
           </div>
           <div class="project-info">
-            <h3>Restaurant Website</h3>
-            <p>A responsive website for a restaurant with online reservation system.</p>
+            <h3>Portfolio Website</h3>
+            <p>A responsive portfolio website built with HTML, CSS, and JavaScript. Features smooth animations and a clean, professional design.</p>
             <div class="project-tags">
               <span>HTML</span>
               <span>CSS</span>
@@ -167,7 +191,7 @@
             </div>
             <div class="project-links">
               <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-              <a href="#" class="project-link"><i class="fab fa-github"></i> Source Code</a>
+              <a href="https://github.com/Sgmstha" class="project-link"><i class="fab fa-github"></i> Source Code</a>
             </div>
           </div>
         </div>
@@ -181,7 +205,7 @@
       <div class="skills-content">
         <div class="skills-text">
           <h3>Technical Proficiencies</h3>
-          <p>I've worked with a variety of technologies and tools throughout my career. Here are some of the key skills I've developed:</p>
+          <p>Through my education, internship at Webniza, and various projects, I've developed a diverse set of technical skills:</p>
         </div>
         <div class="skills-grid">
           <div class="skill-category">
@@ -216,31 +240,31 @@
               </div>
               <div class="skill-bar">
                 <div class="skill-info">
-                  <span>Responsive Design</span>
-                  <span>90%</span>
-                </div>
-                <div class="skill-progress">
-                  <div class="progress" style="width: 90%"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="skill-category">
-            <h4>Design Tools</h4>
-            <div class="skill-bars">
-              <div class="skill-bar">
-                <div class="skill-info">
-                  <span>Figma</span>
+                  <span>React</span>
                   <span>80%</span>
                 </div>
                 <div class="skill-progress">
                   <div class="progress" style="width: 80%"></div>
                 </div>
               </div>
-<!--               <div class="skill-bar">
+            </div>
+          </div>
+          
+          <div class="skill-category">
+            <h4>Backend Development</h4>
+            <div class="skill-bars">
+              <div class="skill-bar">
                 <div class="skill-info">
-                  <span>Adobe XD</span>
+                  <span>Python</span>
+                  <span>85%</span>
+                </div>
+                <div class="skill-progress">
+                  <div class="progress" style="width: 85%"></div>
+                </div>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>Node.js</span>
                   <span>75%</span>
                 </div>
                 <div class="skill-progress">
@@ -249,13 +273,22 @@
               </div>
               <div class="skill-bar">
                 <div class="skill-info">
-                  <span>Photoshop</span>
+                  <span>MongoDB</span>
                   <span>70%</span>
                 </div>
                 <div class="skill-progress">
                   <div class="progress" style="width: 70%"></div>
                 </div>
-              </div> -->
+              </div>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>SQL</span>
+                  <span>65%</span>
+                </div>
+                <div class="skill-progress">
+                  <div class="progress" style="width: 65%"></div>
+                </div>
+              </div>
             </div>
           </div>
           
@@ -263,13 +296,13 @@
             <h4>Other Skills</h4>
             <div class="skill-tags">
               <span>Git</span>
-              <span>SEO</span>
-              <span>UI/UX Design</span>
-              <span>Performance Optimization</span>
-              <span>Accessibility</span>
-              <span>Cross-Browser Compatibility</span>
+              <span>RESTful APIs</span>
+              <span>Responsive Design</span>
+              <span>UI/UX Basics</span>
               <span>Problem Solving</span>
               <span>Team Collaboration</span>
+              <span>Agile Methodology</span>
+              <span>Testing</span>
             </div>
           </div>
         </div>
@@ -283,20 +316,20 @@
       <div class="contact-content">
         <div class="contact-info">
           <h3>Contact Information</h3>
-          <p>Feel free to reach out to me for any inquiries or collaboration opportunities. I'm always open to discussing new projects and ideas.</p>
+          <p>Feel free to reach out to me for any inquiries, collaboration opportunities, or just to say hello. I'm always open to discussing new projects and ideas.</p>
           <div class="contact-details">
             <div class="contact-item">
               <i class="fas fa-map-marker-alt"></i>
               <div>
                 <h4>Location</h4>
-                <p>Kathmandu,Nepal</p>
+                <p>Nepal</p>
               </div>
             </div>
             <div class="contact-item">
               <i class="fas fa-envelope"></i>
               <div>
                 <h4>Email</h4>
-                <p>sugam.shrestha2022@gmail.com</p>
+                <p>sugam.shrestha@example.com</p>
               </div>
             </div>
             <div class="contact-item">
@@ -311,12 +344,12 @@
             <a href="https://www.linkedin.com/in/sugam-shrestha-67682a29b/" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
             <a href="https://github.com/Sgmstha" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
             <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-dribbble"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
           </div>
         </div>
         <div class="contact-form">
           <h3>Send Me a Message</h3>
-          <form id="contactForm">
+          <form id="contactForm" aria-label="Contact form">
             <div class="form-group">
               <label for="name">Name</label>
               <input type="text" id="name" name="name" required>

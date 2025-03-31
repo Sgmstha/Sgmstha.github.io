@@ -22,6 +22,26 @@ navLinksItems.forEach((item) => {
   })
 })
 
+// Fix navigation buttons in hero section
+document.addEventListener("DOMContentLoaded", () => {
+  const viewWorkBtn = document.querySelector(".hero .primary-btn")
+  const contactBtn = document.querySelector(".hero .secondary-btn")
+
+  // Ensure smooth scrolling for the View My Work button
+  viewWorkBtn.addEventListener("click", (e) => {
+    e.preventDefault()
+    const projectsSection = document.getElementById("projects")
+    projectsSection.scrollIntoView({ behavior: "smooth" })
+  })
+
+  // Ensure smooth scrolling for the Contact Me button
+  contactBtn.addEventListener("click", (e) => {
+    e.preventDefault()
+    const contactSection = document.getElementById("contact")
+    contactSection.scrollIntoView({ behavior: "smooth" })
+  })
+})
+
 // Sticky header on scroll
 window.addEventListener("scroll", () => {
   if (window.scrollY > 50) {
@@ -53,6 +73,23 @@ window.addEventListener("scroll", () => {
       item.classList.add("active")
     }
   })
+
+  // Update this part to also check if we're in the projects or contact section
+  // and add a visual indicator to the corresponding buttons
+  const viewWorkBtn = document.querySelector(".hero .primary-btn")
+  const contactBtn = document.querySelector(".hero .secondary-btn")
+
+  if (current === "projects") {
+    viewWorkBtn.classList.add("active-section")
+  } else {
+    viewWorkBtn.classList.remove("active-section")
+  }
+
+  if (current === "contact") {
+    contactBtn.classList.add("active-section")
+  } else {
+    contactBtn.classList.remove("active-section")
+  }
 })
 
 // Project filtering

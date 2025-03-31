@@ -77,6 +77,8 @@ img {
   cursor: pointer;
   transition: var(--transition);
   text-align: center;
+  position: relative; /* Add this for the active indicator */
+  overflow: hidden; /* Ensure the hover effect stays within the button */
 }
 
 .primary-btn {
@@ -88,6 +90,7 @@ img {
 .primary-btn:hover {
   background-color: transparent;
   color: var(--primary-color);
+  box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
 }
 
 .secondary-btn {
@@ -99,6 +102,7 @@ img {
 .secondary-btn:hover {
   background-color: var(--primary-color);
   color: white;
+  box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
 }
 
 .section-title {
@@ -244,7 +248,7 @@ nav {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 50px;
-  align-items: center;
+  align-items: start;
 }
 
 .about-image {
@@ -253,9 +257,12 @@ nav {
 
 .image-container {
   position: relative;
-  border-radius: 20px;
+  border-radius: 50%;
   overflow: hidden;
   box-shadow: var(--shadow);
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
 }
 
 .image-container::before {
@@ -266,8 +273,14 @@ nav {
   width: 100%;
   height: 100%;
   border: 5px solid var(--primary-color);
-  border-radius: 20px;
+  border-radius: 50%;
   z-index: -1;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .about-text h3 {
@@ -278,6 +291,27 @@ nav {
 
 .about-text p {
   margin-bottom: 20px;
+}
+
+.experience-item,
+.certification-item {
+  margin-bottom: 20px;
+  padding-left: 15px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.experience-item h4,
+.certification-item h4 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: var(--dark-color);
+}
+
+.experience-item i,
+.certification-item i {
+  color: var(--primary-color);
 }
 
 .personal-info {
@@ -297,8 +331,30 @@ nav {
   color: var(--secondary-color);
 }
 
+.social-profiles {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  background-color: var(--light-color);
+  border-radius: 50px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.social-btn:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
 .download-btn {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /* Projects Section */
@@ -630,6 +686,24 @@ footer {
   background-color: var(--dark-color);
 }
 
+/* Add this for active section indicator */
+.btn.active-section {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
+}
+
+/* Add this for better focus states for accessibility */
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.5);
+}
+
+/* Add a subtle animation for button clicks */
+.btn:active {
+  transform: translateY(2px);
+  transition: transform 0.1s;
+}
+
 /* Media Queries */
 @media screen and (max-width: 1024px) {
   :root {
@@ -702,10 +776,12 @@ footer {
   .cta-buttons {
     flex-direction: column;
     gap: 15px;
+    width: 100%;
   }
 
   .cta-buttons .btn {
     width: 100%;
+    padding: 15px 30px; /* Larger touch target on mobile */
   }
 
   .projects-grid {
