@@ -1,35 +1,7 @@
+import { portfolioContent as content } from '../../data/content';
 import { FadeIn } from '../ui/FadeIn';
-import portfolioData from '../../portfolioData.json';
-
-const SkillCategory = ({ title, skills }) => (
-  <div className="mb-12">
-    <h3 className="text-3xl font-bold text-white mb-6">{title}</h3>
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-      {skills.map((skill, index) => (
-        <div key={index} className="bg-[#1F1F1F] p-4 rounded-lg text-center">
-          <p className="text-white text-lg">{skill.name}</p>
-          <p className="text-gray-400">{skill.proficiency}%</p>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-export const SkillsSection = () => {
-  return (
-    <section id="skills" className="bg-[#0C0C0C] py-20 sm:py-24 md:py-32">
-      <div className="px-5 sm:px-8 md:px-10">
-        <FadeIn y={40}>
-          <h2 className="hero-heading font-black uppercase text-center mb-16 sm:mb-20 md:mb-28 text-[clamp(3rem,12vw,160px)] leading-none tracking-tight">
-            Skills
-          </h2>
-        </FadeIn>
-        <div className="relative w-full max-w-6xl mx-auto">
-          <SkillCategory title="Frontend" skills={portfolioData.skills.frontend} />
-          <SkillCategory title="Backend" skills={portfolioData.skills.backend} />
-          <SkillCategory title="Miscellaneous" skills={portfolioData.skills.miscellaneous} />
-        </div>
-      </div>
-    </section>
-  );
-};
+export const SkillsSection = () => <section id="skills" className="skills-section section-shell">
+  <div className="section-kicker"><span className="eyebrow">04 / In my toolkit</span><span className="eyebrow">Always evolving</span></div>
+  <div className="skills-layout"><div><h2>Many tools.<br /><span className="serif-word">One mindset.</span></h2><p className="section-description">Choose the right tool.<br />Understand the problem.<br />Build something that works.</p><span className="toolkit-symbol" aria-hidden="true">✳</span></div>
+  <FadeIn><div className="featured-tools"><div><span>TS</span><strong>TypeScript</strong><small>Typed thinking</small></div><div><span>↗</span><strong>React &amp; Next.js</strong><small>Web experiences</small></div><div><span>F</span><strong>Flutter</strong><small>Mobile interfaces</small></div></div><ul className="skill-list">{content.skills.linkedin.map(skill => <li key={skill.name}>{skill.name}</li>)}</ul></FadeIn></div>
+</section>;

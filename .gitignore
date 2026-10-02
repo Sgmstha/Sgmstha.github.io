@@ -31,3 +31,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# AI tracking docs
+docs/decisions.md
+docs/flow.md

@@ -1,28 +1,25 @@
 import { useState } from 'react';
+import { MotionConfig } from 'framer-motion';
 import { HeroSection } from './components/sections/HeroSection';
 import { AboutSection } from './components/sections/AboutSection';
 import { ProjectsSection } from './components/sections/ProjectsSection';
 import { ExperienceSection } from './components/sections/ExperienceSection';
 import { SkillsSection } from './components/sections/SkillsSection';
 import { ContactSection } from './components/sections/ContactSection';
-import { LoadingScreen } from './components/sections/LoadingScreen';
+import { SceneLayer } from './components/scene/SceneLayer';
+import type { SceneStatus } from './components/scene/SceneLayer';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  return (
-    <>
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-      <div className={`main-wrapper bg-[#0C0C0C] min-h-screen text-[#D7E2EA] overflow-x-clip ${isLoading ? 'h-screen overflow-hidden' : ''}`}>
-        <HeroSection />
-        <AboutSection />
-        <ProjectsSection />
-        <ExperienceSection />
-        <SkillsSection />
-        <ContactSection />
-      </div>
-    </>
-  );
+  const [paused, setPaused] = useState(false);
+  const [sceneStatus, setSceneStatus] = useState<SceneStatus>('loading');
+  return <MotionConfig reducedMotion="user">
+    <div className={'main-wrapper scene-' + sceneStatus}>
+      <SceneLayer paused={paused} onStatus={setSceneStatus} />
+      <HeroSection paused={paused} onToggleMotion={() => setPaused(value => !value)} sceneStatus={sceneStatus} />
+      <main id="main-content" tabIndex={-1}>
+        <AboutSection /><ProjectsSection /><ExperienceSection /><SkillsSection /><ContactSection />
+      </main>
+    </div>
+  </MotionConfig>;
 }
-
 export default App;

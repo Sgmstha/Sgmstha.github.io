@@ -1,70 +1,64 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState } from 'react';
+import type { PointerEvent } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { portfolioContent as content } from '../../data/content';
+import type { Project } from '../../data/content';
 import { FadeIn } from '../ui/FadeIn';
-import { LiveProjectButton } from '../ui/LiveProjectButton';
-import portfolioData from '../../portfolioData.json';
 
-const projects = portfolioData.projects;
+const directions = [
+  { title: 'From conversation to code.', label: 'AI / Developer Tool', word: 'AI CODER', subtitle: 'Codebase analysis & patches.' },
+  { title: 'Restock before you run out.', label: 'Full-Stack / Analytics', word: 'SMART RESTOCK', subtitle: 'Predictive inventory & consumption.' },
+  { title: 'Vision that plays in real time.', label: 'Computer Vision / YOLO', word: 'AUTONOMOUS BOT', subtitle: 'Real-time detection & navigation.' },
+  { title: 'Calculated care for every meal.', label: 'Web App / Nutrition', word: 'RAW PMR CALCULATOR', subtitle: 'Precise portions & recipe builder.' },
+];
 
-const ProjectCard = ({ project, index, totalCards }: { project: any, index: number, totalCards: number }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ['start start', 'end start']
-  });
-
-  const targetScale = 1 - (totalCards - 1 - index) * 0.03;
-  const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale]);
-
-  return (
-    <div ref={cardRef} className="h-[85vh] w-full flex justify-center items-start sticky top-24 md:top-32" style={{ marginTop: `${index * 28}px` }}>
-      <motion.div 
-        style={{ scale }}
-        className="w-full max-w-6xl rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col gap-4 sm:gap-6 md:gap-8 origin-top shadow-2xl"
-      >
-        {/* Top row */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="flex items-center gap-4 md:gap-8">
-            <span className="text-[#D7E2EA] font-black text-[clamp(2.5rem,8vw,100px)] leading-none">{project.id}</span>
-            <div className="flex flex-col">
-              <span className="text-[#D7E2EA]/60 uppercase tracking-widest text-xs sm:text-sm">{project.client}</span>
-              <h3 className="text-[#D7E2EA] font-medium uppercase text-xl sm:text-2xl md:text-3xl">{project.name}</h3>
-            </div>
+function ProjectShowcase({ project, index }: { project: Project; index: number }) {
+  const [expanded, setExpanded] = useState(false);
+  const art = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const direction = directions[index];
+  const screenshot = project.images.value && 'url' in project.images.value ? project.images.value : null;
+  const move = (event: PointerEvent<HTMLDivElement>) => {
+    if (reduced || event.pointerType !== 'mouse' || !art.current) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    art.current.style.setProperty('--tilt-x', ((event.clientY - rect.top) / rect.height - .5) * -5 + 'deg');
+    art.current.style.setProperty('--tilt-y', ((event.clientX - rect.left) / rect.width - .5) * 6 + 'deg');
+  };
+  const reset = () => { art.current?.style.setProperty('--tilt-x', '0deg'); art.current?.style.setProperty('--tilt-y', '0deg'); };
+  return <FadeIn>
+    <article className={'project-showcase project-' + index}>
+      <div className="project-visual" onPointerMove={move} onPointerLeave={reset}>
+        {screenshot ? <div className="project-screenshot">
+          <div className="screenshot-topline"><span><i /> {project.name.value}</span><span>{direction.word}</span></div>
+          <a href={screenshot.url} target="_blank" rel="noopener noreferrer" aria-label={'Open full-size ' + project.name.value + ' screenshot'}><img src={screenshot.url} alt={screenshot.alt} loading="lazy" decoding="async" /></a>
+          <div className="screenshot-bottomline"><span>{direction.subtitle}</span><a href={screenshot.url} target="_blank" rel="noopener noreferrer">View full size ↗</a></div>
+        </div> : <div className="project-art" ref={art} aria-hidden="true">
+          <div className="art-topline"><span>{direction.word}</span><span>↗</span></div>
+          <div className="art-scene">
+            {index === 0 && <><div className="product-plinth" /><div className="sculpted-vase"><i /><i /><i /><i /><i /><i /><i /></div><span className="art-big-word">form<br />&amp; function.</span><div className="art-specimen">OBJECT NO. 001<br />EVERYDAY / EXTRAORDINARY</div></>}
+            {index === 1 && <><div className="record-sleeve"><span>PLAY<br /><em>IT LOUD.</em></span></div><div className="vinyl"><i /><b>ss</b></div><div className="sound-bars">{Array.from({ length: 18 }, (_, n) => <i key={n} style={{ height: 8 + (n * 13 % 41) }} />)}</div></>}
+            {index === 3 && <><div className="portfolio-window"><div><i /><i /><i /></div><strong>Always<br /><em>in progress.</em></strong><span>DESIGN. DEVELOP. REPEAT.</span><b>↗</b></div><span className="portfolio-star">✳</span></>}
           </div>
-          <LiveProjectButton />
-        </div>
-
-        {/* Bottom row */}
-        <div className="flex gap-4 sm:gap-6 md:gap-8 flex-grow overflow-hidden h-[clamp(350px,50vw,700px)]">
-          {/* Left col */}
-          <div className="w-[40%] flex flex-col gap-4 sm:gap-6 md:gap-8">
-            <img src={project.images.col1_1} alt="Project detail 1" className="w-full h-[clamp(130px,16vw,230px)] object-cover rounded-[30px] sm:rounded-[40px] md:rounded-[50px]" />
-            <img src={project.images.col1_2} alt="Project detail 2" className="w-full h-[clamp(160px,22vw,340px)] object-cover rounded-[30px] sm:rounded-[40px] md:rounded-[50px] flex-grow" />
-          </div>
-          {/* Right col */}
-          <div className="w-[60%] h-full">
-            <img src={project.images.col2} alt="Project main detail" className="w-full h-full object-cover rounded-[30px] sm:rounded-[40px] md:rounded-[50px]" />
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-};
-
-export const ProjectsSection = () => {
-  return (
-    <section id="projects" className="bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 relative z-20 px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32">
-      <FadeIn y={40}>
-        <h2 className="hero-heading font-black uppercase text-center mb-16 sm:mb-20 md:mb-28 text-[clamp(3rem,12vw,160px)] leading-none tracking-tight">
-          Project
-        </h2>
-      </FadeIn>
-
-      <div className="relative w-full max-w-6xl mx-auto pb-[15vh]">
-        {projects.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index} totalCards={projects.length} />
-        ))}
+          <div className="art-bottomline"><span>{direction.subtitle}</span><span>0{index + 1} / 04</span></div>
+        </div>}
+        <span className="visual-caption">{screenshot ? 'Actual application screenshot · development build' : 'Art direction study · not a project screenshot'}</span>
       </div>
-    </section>
-  );
-};
+      <div className="project-information">
+        <div className="project-number"><span>0{index + 1}</span><span className="eyebrow">{direction.label}</span></div>
+        <h3>{project.name.value}</h3><p className="project-hook">{direction.title}</p>
+        {project.status?.value && <span className="project-status"><i />{project.status.value}</span>}
+        {project.summary?.value && <p className="project-summary">{project.summary.value}</p>}
+        <div className="tag-list">{project.techStack.value?.map(tag => <span key={tag}>{tag}</span>)}</div>
+        {project.features.value && <ul className="project-capabilities" aria-label="Project capabilities">{project.features.value.map(feature => <li key={feature}>{feature}</li>)}</ul>}
+        <button className="project-toggle" type="button" onClick={() => setExpanded(value => !value)} aria-expanded={expanded} aria-controls={'details-' + project.id}><span>{expanded ? 'Close overview' : 'Project overview'}</span><span aria-hidden="true">{expanded ? '−' : '+'}</span></button>
+        <AnimatePresence initial={false}>{expanded && <motion.div id={'details-' + project.id} initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: reduced ? 0 : .3 }} className="project-details"><p>{project.description.value}</p>{project.sourceUrl.value && <a href={project.sourceUrl.value} target="_blank" rel="noopener noreferrer">Source code ↗</a>}{project.liveUrl.value && <a href={project.liveUrl.value} target="_blank" rel="noopener noreferrer">Live project ↗</a>}</motion.div>}</AnimatePresence>
+      </div>
+    </article>
+  </FadeIn>;
+}
+
+export const ProjectsSection = () => <section id="projects" className="projects-section section-shell">
+  <div className="section-kicker"><span className="eyebrow">02 / Some things I’ve built</span><span className="eyebrow">Selected work / 04</span></div>
+  <div className="projects-heading"><h2>Built to work.<br /><span className="serif-word">Made to feel.</span></h2><p>Different projects. The same curiosity.<br />From computer vision to predictive tools.</p></div>
+  <div className="project-list">{content.projects.map((project, index) => <ProjectShowcase key={project.id} project={project} index={index} />)}</div>
+</section>;

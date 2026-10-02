@@ -1,30 +1,11 @@
+import { portfolioContent as content } from '../../data/content';
 import { FadeIn } from '../ui/FadeIn';
-import portfolioData from '../../portfolioData.json';
-
-export const ExperienceSection = () => {
-  return (
-    <section id="experience" className="bg-[#0C0C0C] py-20 sm:py-24 md:py-32">
-      <div className="px-5 sm:px-8 md:px-10">
-        <FadeIn y={40}>
-          <h2 className="hero-heading font-black uppercase text-center mb-16 sm:mb-20 md:mb-28 text-[clamp(3rem,12vw,160px)] leading-none tracking-tight">
-            Experience
-          </h2>
-        </FadeIn>
-        <div className="relative w-full max-w-6xl mx-auto">
-          {portfolioData.experience.map((exp, index) => (
-            <div key={index} className="mb-8">
-              <h3 className="text-2xl font-bold text-white">{exp.role}</h3>
-              <p className="text-lg text-gray-400">{exp.company}</p>
-            </div>
-          ))}
-          {portfolioData.certifications.map((cert, index) => (
-            <div key={index} className="mb-8">
-              <h3 className="text-2xl font-bold text-white">{cert.name}</h3>
-              <p className="text-lg text-gray-400">{cert.issuer}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+export const ExperienceSection = () => <section id="experience" className="experience-section"><div className="section-shell">
+  <div className="section-kicker"><span className="eyebrow">03 / The journey so far</span><span className="eyebrow">Experience & learning</span></div>
+  <div className="experience-header"><h2>Built through<br /><span className="serif-word">experience.</span></h2><p className="section-description">Every project adds a new perspective.<br />Every team brings something to learn.</p></div>
+  <div className="experience-list">{content.experience.filter(item => item.role.value !== null).map((item, index) => <FadeIn key={item.id}>
+    <article className="experience-row"><div className="experience-date"><span className="eyebrow">0{index + 1}</span><p>{item.period.value}</p></div><div><h3>{item.role.value}</h3><p className="experience-company">{item.company.value}</p><p className="muted">{[item.employmentType?.value, item.location?.value].filter(Boolean).join(' · ')}</p>{item.description.value && <p>{item.description.value}</p>}<div className="tag-list">{item.skills?.value?.map(skill => <span key={skill}>{skill}</span>)}</div></div><span className="experience-symbol" aria-hidden="true">↗</span></article>
+  </FadeIn>)}</div>
+  <details className="certificates"><summary><div><h3>Always a student.</h3><p className="muted">Explore training &amp; certificates</p></div><span aria-hidden="true">+</span></summary>
+  <div className="certificate-grid">{content.certifications.filter(cert => cert.name.value).map(cert => <article key={cert.id} className="certificate-card"><span className="eyebrow">Learning / completion</span><h4>{cert.name.value}</h4><p>{cert.issuer.value}</p>{cert.organizer?.value && <p>Organizer: {cert.organizer.value}</p>}{cert.trainingPartner?.value && <p>Training partner: {cert.trainingPartner.value}</p>}{cert.evidenceUrl && <a className="text-link" href={cert.evidenceUrl} target="_blank" rel="noopener noreferrer">View completion post ↗</a>}</article>)}</div>
+</details></div></section>;

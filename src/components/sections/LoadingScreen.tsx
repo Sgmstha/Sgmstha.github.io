@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const words = ["Design", "Create", "Inspire"];
+
 export const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
   const [count, setCount] = useState(0);
   const [wordIndex, setWordIndex] = useState(0);
-  const words = ["Design", "Create", "Inspire"];
 
   useEffect(() => {
     let startTime: number;

@@ -1,123 +1,114 @@
 # Project guide
 
-## Scope and current state
-- Personal portfolio; audit baseline: 2026-10-02.
-- This checkout has a video hero and mounted About, Projects, Experience, Skills,
-  and Contact sections. It does not contain a persistent 3D scene or camera path.
-- Do not describe the HLS video or decorative PNGs as interactive 3D.
-- Keep unrelated files unchanged; do not overwrite existing user work.
+## Scope
+- Personal portfolio migration. Work locally on the current feature branch.
+- No push, deployment, or edits to the old repository without authorization.
+- Preserve existing user changes and baseline/pre-3d.
+- The current design has a persistent, procedural Three.js sculpture and HTML sections.
+- Mobile and reduced-motion visitors get static CSS art and the same readable content.
+- Approved sourced content is in src/data/content.ts; open questions in REVIEW_FLAGS.md.
 
 ## Stack
-- React / React DOM 19.2.7, TypeScript 6.0.3; ESM, TSX, client rendering.
-- Vite 8.1.5 with @vitejs/plugin-react 6.0.3.
-- Tailwind CSS 3.4.19, PostCSS 8.5.21, Autoprefixer 10.5.4.
-- Framer Motion 12.42.2, GSAP 3.15.0, hls.js 1.6.16.
-- lucide-react 1.25.0 is declared but has no source imports.
-- Oxlint 1.74.0; React Hooks rules enabled.
-- npm / package-lock.json; versions above are lockfile resolutions, not ranges.
-- No Three.js, React Three Fiber, drei, or Lenis dependency is present.
-- Scripts: npm run dev, npm run build, npm run lint, npm run preview.
-- Build runs tsc -b before Vite; preview serves an existing dist build.
+- React / React DOM 19.2.7, TypeScript 6.0.3, Vite 8.1.5.
+- Three.js 0.186.1, React Three Fiber 9.8.1, drei 10.7.9.
+- Framer Motion 12.42.2; no Lenis or scroll hijacking.
+- Tailwind 3.4.19, PostCSS 8.5.28, Autoprefixer 10.5.4.
+- Oxlint 1.74.0. npm and package-lock.json are the package manager/lockfile.
+- GSAP and HLS remain declared for legacy source; neither is in the active page.
+- npm run dev, npm run lint, npm run build, npm run preview, npm test.
+- Tests use Node's built-in runner and TypeScript stripping (Node 22.19+).
 
 ## Folder map
-- index.html: root element, Google Kanit font request, title and favicon link.
-- src/main.tsx: imports index.css and mounts App inside React StrictMode.
-- src/App.tsx: loader state and section order; all sections mount immediately.
-- src/portfolioData.json: identity, contact, projects, skills, experience, certificates.
-- src/components/sections/HeroSection.tsx: GSAP entrance, HLS video, fixed nav,
-  active-section observer and scroll-direction visibility.
-- src/components/sections/LoadingScreen.tsx: timed counter/word animation overlay.
-- src/components/sections/AboutSection.tsx: summary and four remote PNG decorations.
-- src/components/sections/ProjectsSection.tsx: sticky cards with scroll-linked scale.
-- src/components/sections/ExperienceSection.tsx: roles and certificates.
-- src/components/sections/SkillsSection.tsx: three skill-category grids.
-- src/components/sections/ContactSection.tsx: email, phone, location, social links.
-- src/components/ui/FadeIn.tsx: reusable once-on-entry Motion wrapper.
-- src/components/ui/AnimatedText.tsx: character opacity driven by local scroll.
-- src/components/ui/ContactButton.tsx, LiveProjectButton.tsx: currently inert buttons.
-- src/components/ui/Magnet.tsx: pointer-follow transform; currently unmounted.
-- Navbar, ServicesSection, MarqueeSection, VisualPlaygroundSection: unmounted.
-- src/index.css: Tailwind layers, base colors/font, gradient heading, keyframes.
-- src/App.css and src/assets/: unused template CSS, hero PNG and template SVGs.
-- public/: favicon.svg and icons.svg; index.html instead references missing /vite.svg.
-- vite.config.ts, tsconfig*.json: bundler and TypeScript configuration.
-- tailwind.config.js, postcss.config.js, .oxlintrc.json: styles and lint configuration.
-- dist/: existing output, not proof that current source builds; do not edit manually.
-- node_modules/: installed dependencies; .claude/: local tooling metadata.
-- README.md: mostly template documentation.
+- src/main.tsx: StrictMode root and index.css import.
+- src/App.tsx: scene status/pause state, persistent scene, hero and semantic main.
+- src/data/content.ts: typed sourced facts. null means unverified; candidates are evidence.
+- src/data/sections.ts: shared IDs, labels, cameraPosition and lookAt waypoints.
+- src/components/scene/SceneLayer.tsx: device/motion/data policy, lazy import, error boundary.
+- SculptureCanvas.tsx: single Canvas, procedural mesh, local environment lighting,
+  camera interpolation, pointer rotation, quality adaptation and visibility handling.
+- scrollPath.ts: pure scroll-segment math and scene eligibility policy.
+- tests/scene-policy.test.mjs: uneven/collapsed offsets, overscroll and fallback policy.
+- src/components/sections/HeroSection.tsx: nav, scroll indicator, headline entrance,
+  static fallback art, scene loading label and pause/resume control.
+- AboutSection.tsx: approved summary in a light editorial section.
+- ProjectsSection.tsx: four distinct CSS art studies, pointer tilt and expandable overviews.
+- ExperienceSection.tsx: confirmed roles and accessible native certificate disclosure.
+- SkillsSection.tsx: user-confirmed primary tools plus all LinkedIn skills; no percentages.
+- ContactSection.tsx: mail/phone/social links, copy email action and footer.
+- src/components/ui/FadeIn.tsx: reduced-motion-aware once-on-entry reveal.
+- src/index.css: ivory/graphite/orange tokens, typography, art and responsive layouts.
+- index.html: Manrope/Space Mono fonts, title, description, canonical, OG text tags.
+- public/favicon.svg: monogram; public/CNAME copies the custom domain into Vite output.
+- Root CNAME: preserved sugam-shrestha.com.np.
+- dist/: generated output, never edit manually.
+- LoadingScreen, Navbar, Services, Marquee, VisualPlayground: unmounted legacy components.
+- src/App.css and src/assets/: unused template styles/assets.
 
-## Scroll and camera system
-- There is no camera, canvas, renderer, global scroll progress or camera interpolation.
-- Hero reads window.scrollY through a passive listener. Below 100px the nav shows
-  Home; otherwise scrolling up shows the nav and scrolling down hides it.
-- Hero observes projects, experience, skills and contact with IntersectionObserver;
-  rootMargin is '-40% 0px -55% 0px'. About is not observed; exit does not clear state.
-- AnimatedText uses useScroll(target paragraph, ['start 0.8', 'end 0.2']).
-  Character i of N maps progress [i/N, (i+1)/N] to opacity [0.2, 1].
-- ProjectCard uses useScroll(target sticky wrapper, ['start start', 'end start']).
-  Progress [0,1] maps scale [1, 1-(totalCards-1-index)*0.03].
-- Unmounted Marquee reads scrollY into React state and translates rows at 0.3x.
-- Unmounted VisualPlayground uses ScrollTrigger pinning and +/-50% column motion.
-  Its cleanup kills every ScrollTrigger globally; scope cleanup before reuse.
-- Future proposal: keep one scene mounted in App, separate from semantic sections.
-  Maintain an ordered registry of section IDs, camera positions and look-at targets.
-- Measure section boundaries after layout and on resize/content changes. For each
-  segment use t=clamp((scrollY-start)/(end-start),0,1), guarding zero-length spans.
-- Interpolate adjacent position/target values in one frame loop using refs or motion
-  values. Never put per-frame camera updates in React state.
-- Keep HTML readable when scene loading, rendering or motion fails.
+## Scroll/camera system
+- Ordinary document scrolling and anchors; no custom scroll container.
+- The registry order matches the HTML section order and also drives navigation.
+- ResizeObserver measures actual section document offsets after layout changes.
+- Passive scroll/pointer listeners store values in refs, not continuous React state.
+- getScrollSegment finds the adjacent measured waypoints and clamps progress to [0,1].
+- Progress = (scrollY - segmentStart) / max(1, segmentEnd - segmentStart).
+- Camera position/lookAt interpolate between registry vectors, then damp by frame delta.
+- Object rotation combines gentle elapsed-time motion with a small pointer response.
+- Geometry and environment are procedural: no model, texture or HDR downloads.
+- One Canvas remains mounted across desktop section navigation.
+- Scene loading never blocks HTML. A first-frame signal switches loading art to live art.
+- Pause switches the frame loop to demand and freezes scene motion; hidden tabs also idle.
+- Rendering/context failure replaces the scene with static CSS artwork.
+- The fallback prop itself has no side effects: Fiber mounts canvas fallback children
+  even when canvas rendering is supported. Errors are handled by SceneBoundary.
 
-## Coding conventions
-- Use PascalCase TSX filenames and named exports for section/UI components.
-- Keep section layout in sections/ and reusable presentation in ui/.
-- Keep portfolio content in portfolioData.json; use stable IDs as list keys.
-- Type component props explicitly; infer data types from JSON or shared interfaces.
-  Avoid any, and call hooks only at component/custom-hook top level.
-- Use Tailwind utilities with existing sm/md/lg breakpoints; put shared tokens in
-  Tailwind configuration and reusable CSS/keyframes in index.css.
-- Prefer transform/opacity animation. Scope GSAP selectors with gsap.context.
-- Every effect must clean up its own observers, listeners, animation frames,
-  timers, GSAP animations and HLS instance; verify StrictMode remount behavior.
-- Use state for discrete UI changes; refs/motion values for continuous animation.
-- Navigation actions use anchors, with real hrefs; actions use functional buttons.
-- Provide headings, useful image alt text, keyboard focus and reduced-motion behavior.
-- Share section IDs/order between layout, navigation and any future camera registry.
+## Conventions
+- PascalCase TSX; named exports for UI/sections. The lazy scene uses a default export.
+- Keep facts in typed content; only display value fields, never pick candidates silently.
+- Keep source/evidence metadata; do not invent achievements, dates, screenshots or URLs.
+- Art direction studies must be labeled; they are not screenshots of the actual projects.
+- Keep certificate organizer, issuer and training partner distinct.
+- Top-level hooks only; explicit props and no any; stable IDs/names as list keys.
+- Refs/vectors for animation, React state for discrete controls and loading/error status.
+- Reuse vectors; never allocate objects or update React state continuously in useFrame.
+- Every effect cleans up its own observers, listeners, timers and animations.
+- CSS variables/semantic classes in index.css; responsive boundaries 767px and 1100px.
+- Keep hero/home and section IDs stable; navigation uses real href anchors.
+- Buttons perform actions; native details/summary supports certificate disclosure.
+- Decorative graphics are aria-hidden. Preserve headings, focus states and skip link.
+- Reduced motion disables title/reveal transforms, smooth scroll, tilt and WebGL loading.
+- Use real mailto/tel links; absent resume, repo and demo links remain hidden.
 
-## How to add a new section
-1. Add typed content and a stable section ID; confirm existing content is not duplicated.
-2. Create a named Section component with semantic section/h2 and responsive layout.
-3. Mount it in App at the intended position; use the existing background/spacing style.
-4. Add navigation and active-section observation where appropriate. Centralize their
-   registry before adding many sections; the current nav lives inside HeroSection.
-5. Reuse FadeIn or a scoped animation, respecting reduced motion and effect cleanup.
-6. Add working links and optimized images with dimensions, responsive sources and
-   below-fold lazy loading. Check narrow screens and short landscape viewports.
-7. If the future scene exists, add one position/target waypoint to its registry,
-   remeasure boundaries and check transitions, direct anchors and resize handling.
-8. Run lint/type checks/build when writes are authorized; inspect mobile behavior,
-   keyboard navigation, asset failures and reduced-motion mode.
+## Add a section checklist
+1. Add sourced typed content; leave unknowns null and record them in REVIEW_FLAGS.md.
+2. Add an ID/label/cameraPosition/lookAt entry to src/data/sections.ts.
+3. Create a semantic section with h2 and mount it in App in registry order.
+4. Follow shared spacing/tokens; choose light/dark treatment deliberately.
+5. Check actual section heights, anchor offsets, resize and direct deep links.
+6. Add meaningful actions and accessible states; do not create fake demo buttons.
+7. Respect reduced motion and pointer capabilities; keep content readable without WebGL.
+8. Verify transitions between both adjacent camera waypoints and collapsed content.
+9. Run lint, test, build and git diff --check; inspect desktop and narrow mobile.
 
-## Performance budget (proposed ceilings, not measured compliance)
-- Initial compressed JS <=200 KiB; CSS <=30 KiB; initial non-video transfer <=1 MiB.
-- Images: AVIF/WebP preferred, <=200 KiB each; hero/poster <=300 KiB.
-- Load below-fold images lazily; avoid animated GIF galleries and oversized sources.
-- Fonts: only used weights/styles; target <=150 KiB total compressed font transfer.
-- Video: stream adaptively, cap mobile at 720p, target <=1.5 Mbps mobile / 3 Mbps desktop;
-  use <=1 MiB segments and a <=300 KiB poster. Pause when offscreen or tab is hidden.
-- Future 3D: compressed GLB <=2 MiB each, <=5 MiB total deferred scene assets.
-- Textures: KTX2/Basis where supported, <=512 KiB each; <=2048px desktop / 1024px mobile.
-- Future scene: <=100 draw calls desktop / 50 mobile; <=200k / 75k visible triangles.
-- Cap device pixel ratio at 1.5 desktop / 1 mobile; target 60 / at least 30 FPS.
-- Mobile fallback: widths <=767px, reduced motion, save-data, WebGL/context failure,
-  or sustained <30 FPS use a static poster and normal readable HTML sections.
-  Skip autoplay video and scene downloads in fallback mode; keep every link usable.
+## Performance budget
+- Initial JS <=200 KiB gzip; separate lazy scene JS <=350 KiB gzip; CSS <=30 KiB gzip.
+- Current approximate output: initial JS 114 KB, scene 263 KB, CSS 10 KB gzip.
+- Initial non-scene transfer <=1 MiB; compressed fonts <=150 KiB.
+- Images AVIF/WebP <=200 KiB each; static poster <=300 KiB.
+- Future GLB <=2 MiB each, <=5 MiB total deferred assets.
+- Future textures KTX2/Basis <=512 KiB each, <=2048px desktop / 1024px mobile.
+- <=100 draw calls and 200k visible triangles desktop; <=50 / 75k if mobile 3D is added.
+- Current sculpture measured at 4 draw calls and 13,720 triangles in the local preview.
+- DPR capped at 1.25; sustained slow frames first reduce it to 1, then use static art.
+- Target 60 FPS desktop and >=30 FPS mid-range mobile; real-device testing still needed.
+- Width <=767px, reduced motion or save-data skips the lazy 3D import entirely.
+- WebGL errors/context loss or sustained <28 FPS after quality reduction use static art.
+- No autoplay video. No models, textures, postprocessing or remote environment maps.
 
-## Known blockers and pitfalls
-- SkillsSection has four implicit-any errors; current source fails TypeScript checking.
-- AnimatedText calls useTransform inside map; lint reports a Hooks rule violation.
-- LoadingScreen cleans only its interval, leaving RAF/timer work alive; StrictMode
-  can start duplicate loops. Its percentage is elapsed time, not asset readiness.
-- Hero entrance runs underneath the loader; HLS instance lacks destroy/error handling.
-- Project imagery is Picsum placeholder content; live URLs are absent from data.
-- Experience hides available period/description fields; Contact has no footer/form.
-- No explicit reduced-motion/mobile media fallback or scene implementation exists.
+## Deferred/known limitations
+- Real screenshots, verified GitHub URL, resume and OG image remain deferred.
+- Contact uses email/phone apps; no server-side contact form.
+- Legacy unmounted loader needs RAF/timer cleanup before reuse.
+- Legacy VisualPlayground kills global ScrollTriggers; scope cleanup before reuse.
+- Three/Fiber emits a Clock deprecation warning; some drivers report harmless shader
+  precision warnings. Local browser testing found no application runtime errors.
+- Build warns on the large uncompressed lazy scene; its compressed size is within budget.
