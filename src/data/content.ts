@@ -95,7 +95,7 @@ export const portfolioContent: PortfolioContent = {
   "contact": {
     "source": "old-live",
     "email": {
-      "value": "sugam.shrestha@gmail.com",
+      "value": "sugam.shrestha2022@gmail.com",
       "source": "user-approved",
       "approvalNote": "User confirmed keeping existing deployed-site contact details."
     },

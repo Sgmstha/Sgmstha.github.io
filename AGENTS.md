@@ -14,7 +14,7 @@
 - Framer Motion 12.42.2; no Lenis or scroll hijacking.
 - Tailwind 3.4.19, PostCSS 8.5.28, Autoprefixer 10.5.4.
 - Oxlint 1.74.0. npm and package-lock.json are the package manager/lockfile.
-- GSAP and HLS remain declared for legacy source; neither is in the active page.
+- Legacy dependencies (GSAP, HLS, Lucide) removed.
 - npm run dev, npm run lint, npm run build, npm run preview, npm test.
 - Tests use Node's built-in runner and TypeScript stripping (Node 22.19+).
 
@@ -41,8 +41,6 @@
 - public/favicon.svg: monogram; public/CNAME copies the custom domain into Vite output.
 - Root CNAME: preserved sugam-shrestha.com.np.
 - dist/: generated output, never edit manually.
-- LoadingScreen, Navbar, Services, Marquee, VisualPlayground: unmounted legacy components.
-- src/App.css and src/assets/: unused template styles/assets.
 
 ## Scroll/camera system
 - Ordinary document scrolling and anchors; no custom scroll container.
@@ -107,8 +105,6 @@
 ## Deferred/known limitations
 - Real screenshots, verified GitHub URL, resume and OG image remain deferred.
 - Contact uses email/phone apps; no server-side contact form.
-- Legacy unmounted loader needs RAF/timer cleanup before reuse.
-- Legacy VisualPlayground kills global ScrollTriggers; scope cleanup before reuse.
 - Three/Fiber emits a Clock deprecation warning; some drivers report harmless shader
   precision warnings. Local browser testing found no application runtime errors.
 - Build warns on the large uncompressed lazy scene; its compressed size is within budget.

@@ -2,6 +2,8 @@ import { Component, lazy, Suspense, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { shouldRenderScene } from './scrollPath';
 
+import type { SculptureMode } from './SculptureCanvas';
+
 const SculptureCanvas = lazy(() => import('./SculptureCanvas'));
 
 class SceneBoundary extends Component<{ children: ReactNode; onFailure: () => void }, { failed: boolean }> {
@@ -13,7 +15,15 @@ class SceneBoundary extends Component<{ children: ReactNode; onFailure: () => vo
 
 export type SceneStatus = 'loading' | 'live' | 'static';
 
-export function SceneLayer({ paused, onStatus }: { paused: boolean; onStatus: (status: SceneStatus) => void }) {
+export function SceneLayer({
+  mode = 'knot',
+  paused,
+  onStatus,
+}: {
+  mode?: SculptureMode;
+  paused: boolean;
+  onStatus: (status: SceneStatus) => void;
+}) {
   const [allowed, setAllowed] = useState(false);
   const [failed, setFailed] = useState(false);
   const eligibility = useRef<boolean | null>(null);
@@ -44,7 +54,9 @@ export function SceneLayer({ paused, onStatus }: { paused: boolean; onStatus: (s
   if (!allowed || failed) return null;
   return <div className="scene-layer" aria-hidden="true">
     <SceneBoundary onFailure={fail}>
-      <Suspense fallback={null}><SculptureCanvas paused={paused} onReady={() => onStatus('live')} onFailure={fail} /></Suspense>
+      <Suspense fallback={null}>
+        <SculptureCanvas mode={mode} paused={paused} onReady={() => onStatus('live')} onFailure={fail} />
+      </Suspense>
     </SceneBoundary>
   </div>;
 }
