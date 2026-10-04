@@ -14,7 +14,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono&display=swap"
     rel="stylesheet">
-  <title>Sugam Shrestha — Portfolio</title>
+  <title>Sugam Shrestha | Full-Stack Developer in Nepal</title>
   <meta name="description" content="Sugam Shrestha — Full-Stack Developer &amp; Creative Engineer based in Nepal. Crafting high-performance web and mobile experiences with TypeScript, React, Next.js, Flutter, and Three.js." />
   <meta name="keywords" content="Sugam Shrestha, Full-Stack Developer, Creative Developer, React, Next.js, TypeScript, Flutter, Three.js, WebXR, Nepal Developer, Frontend Engineer, Software Engineer Portfolio" />
   <meta name="author" content="Sugam Shrestha" />
@@ -27,7 +27,7 @@
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="profile" />
-  <meta property="og:title" content="Sugam Shrestha|Portfolio" />
+  <meta property="og:title" content="Sugam Shrestha | Full-Stack Developer in Nepal" />
   <meta property="og:description" content="High-performance web &amp; mobile development, interactive 3D experiences, and thoughtful user interfaces by Sugam Shrestha." />
   <meta property="og:url" content="https://sugam-shrestha.com.np/" />
   <meta property="og:site_name" content="Sugam Shrestha Portfolio" />
@@ -55,6 +55,8 @@
         "@type": "Person",
         "@id": "https://sugam-shrestha.com.np/#person",
         "name": "Sugam Shrestha",
+        "alternateName": ["Sugam", "Sgmstha"],
+        "mainEntityOfPage": { "@id": "https://sugam-shrestha.com.np/#profilepage" },
         "givenName": "Sugam",
         "familyName": "Shrestha",
         "url": "https://sugam-shrestha.com.np/",
@@ -82,10 +84,20 @@
         ]
       },
       {
+        "@type": "ProfilePage",
+        "@id": "https://sugam-shrestha.com.np/#profilepage",
+        "url": "https://sugam-shrestha.com.np/",
+        "name": "Sugam Shrestha",
+        "mainEntity": { "@id": "https://sugam-shrestha.com.np/#person" },
+        "isPartOf": { "@id": "https://sugam-shrestha.com.np/#website" },
+        "inLanguage": "en-US"
+      },
+      {
         "@type": "WebSite",
         "@id": "https://sugam-shrestha.com.np/#website",
         "url": "https://sugam-shrestha.com.np/",
-        "name": "Sugam Shrestha | Portfolio",
+        "name": "Sugam Shrestha",
+        "alternateName": "Sugam Shrestha Portfolio",
         "description": "Personal portfolio and engineering case studies of Sugam Shrestha.",
         "publisher": {
           "@id": "https://sugam-shrestha.com.np/#person"
@@ -99,6 +111,11 @@
 
 <body>
   <div id="root"></div>
+  <noscript>
+    <h1>Sugam Shrestha</h1>
+    <p>Sugam Shrestha is a full-stack developer based in Nepal, building web and mobile applications with TypeScript, React, Next.js, Flutter and Three.js.</p>
+    <p><a href="https://www.linkedin.com/in/sugam-shrestha-67682a29b/">Sugam Shrestha on LinkedIn</a></p>
+  </noscript>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
