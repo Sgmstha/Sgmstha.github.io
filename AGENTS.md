@@ -31,12 +31,13 @@
 - src/components/sections/HeroSection.tsx: nav, scroll indicator, headline entrance,
   static fallback art, scene loading label and pause/resume control.
 - AboutSection.tsx: approved summary in a light editorial section.
-- ProjectsSection.tsx: four distinct CSS art studies, pointer tilt and expandable overviews.
+- ProjectsSection.tsx: project index, large screenshot stages, pointer tilt, native overviews.
 - ExperienceSection.tsx: confirmed roles and accessible native certificate disclosure.
 - SkillsSection.tsx: user-confirmed primary tools plus all LinkedIn skills; no percentages.
 - ContactSection.tsx: mail/phone/social links, copy email action and footer.
 - src/components/ui/FadeIn.tsx: reduced-motion-aware once-on-entry reveal.
-- src/index.css: ivory/graphite/orange tokens, typography, art and responsive layouts.
+- src/index.css: shared base styles and modal layouts.
+- src/design.css: monochrome/blue art direction, editorial layouts and responsive overrides.
 - index.html: Manrope/Space Mono fonts, title, description, canonical, OG text tags.
 - public/favicon.svg: monogram; public/CNAME copies the custom domain into Vite output.
 - Root CNAME: preserved sugam-shrestha.com.np.
@@ -95,7 +96,7 @@
 - Future GLB <=2 MiB each, <=5 MiB total deferred assets.
 - Future textures KTX2/Basis <=512 KiB each, <=2048px desktop / 1024px mobile.
 - <=100 draw calls and 200k visible triangles desktop; <=50 / 75k if mobile 3D is added.
-- Current sculpture measured at 4 draw calls and 13,720 triangles in the local preview.
+- Default kinetic sculpture measured at 24 draw calls and 30,720 triangles locally.
 - DPR capped at 1.25; sustained slow frames first reduce it to 1, then use static art.
 - Target 60 FPS desktop and >=30 FPS mid-range mobile; real-device testing still needed.
 - Width <=767px, reduced motion or save-data skips the lazy 3D import entirely.

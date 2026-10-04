@@ -4,10 +4,10 @@ import { portfolioContent as content } from '../../data/content';
 import { Magnetic } from '../ui/Magnetic';
 
 const inquiryTopics = [
-  { id: 'collab', label: '💼 Project Collaboration', subject: 'Project Collaboration Inquiry' },
-  { id: 'webapp', label: '🚀 Web / Mobile App', subject: 'Web & Mobile App Development' },
-  { id: 'consult', label: '💬 Consultation', subject: 'Technical Consultation Inquiry' },
-  { id: 'hello', label: '👋 Just Saying Hello', subject: 'Hello Sugam!' },
+  { id: 'collab', label: 'Project collaboration', subject: 'Project Collaboration Inquiry' },
+  { id: 'webapp', label: 'Web / mobile app', subject: 'Web & Mobile App Development' },
+  { id: 'consult', label: 'Consultation', subject: 'Technical Consultation Inquiry' },
+  { id: 'hello', label: 'Just saying hello', subject: 'Hello Sugam!' },
 ];
 
 export const ContactSection = () => {
@@ -42,9 +42,9 @@ export const ContactSection = () => {
         </div>
         <div className="contact-heading">
           <h2>
-            Have a good
+            Let’s make
             <br />
-            <span className="serif-word">challenge?</span>
+            <span className="serif-word">something.</span>
           </h2>
           {email.value && (
             <Magnetic strength={0.4}>
@@ -68,6 +68,7 @@ export const ContactSection = () => {
                 key={topic.id}
                 type="button"
                 className={`inquiry-chip ${selectedTopic === topic.subject ? 'active' : ''}`}
+                aria-pressed={selectedTopic === topic.subject}
                 onClick={() => setSelectedTopic(topic.subject)}
                 whileHover={reduced ? undefined : { scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}

@@ -1,262 +1,47 @@
 import { useRef, useState } from 'react';
 import type { PointerEvent } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import { portfolioContent as content } from '../../data/content';
 import type { Project } from '../../data/content';
 import { FadeIn } from '../ui/FadeIn';
 import { LightboxModal } from '../ui/LightboxModal';
 import type { LightboxData } from '../ui/LightboxModal';
 
-const directions = [
-  { title: 'From conversation to code.', label: 'AI / Developer Tool', word: 'AI CODER', subtitle: 'Codebase analysis & patches.' },
-  { title: 'Restock before you run out.', label: 'Full-Stack / Analytics', word: 'SMART RESTOCK', subtitle: 'Predictive inventory & consumption.' },
-  { title: 'Vision that plays in real time.', label: 'Computer Vision / YOLO', word: 'AUTONOMOUS BOT', subtitle: 'Real-time detection & navigation.' },
-  { title: 'Calculated care for every meal.', label: 'Web App / Nutrition', word: 'RAW PMR CALCULATOR', subtitle: 'Precise portions & recipe builder.' },
-];
-
-function ProjectShowcase({
-  project,
-  index,
-  onOpenLightbox,
-}: {
-  project: Project;
-  index: number;
-  onOpenLightbox: (data: LightboxData) => void;
-}) {
-  const [expanded, setExpanded] = useState(false);
+const disciplines = ['AI / Developer tools', 'Full-stack / Analytics', 'Computer vision / Automation', 'Web application / Nutrition'];
+function ProjectShowcase({ project, index, onPreview }: { project: Project; index: number; onPreview: (item: LightboxData) => void }) {
   const art = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const direction = directions[index];
   const screenshot = project.images.value && 'url' in project.images.value ? project.images.value : null;
-
   const move = (event: PointerEvent<HTMLDivElement>) => {
-    if (reduced || event.pointerType !== 'mouse') return;
+    if (reduced || event.pointerType !== 'mouse' || !art.current) return;
     const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    event.currentTarget.style.setProperty('--card-x', `${x}px`);
-    event.currentTarget.style.setProperty('--card-y', `${y}px`);
-    if (art.current) {
-      art.current.style.setProperty('--tilt-x', ((event.clientY - rect.top) / rect.height - 0.5) * -5 + 'deg');
-      art.current.style.setProperty('--tilt-y', ((event.clientX - rect.left) / rect.width - 0.5) * 6 + 'deg');
-    }
+    art.current.style.setProperty('--tilt-x', `${((event.clientY - rect.top) / rect.height - .5) * -3}deg`);
+    art.current.style.setProperty('--tilt-y', `${((event.clientX - rect.left) / rect.width - .5) * 3}deg`);
   };
-
-  const reset = (event: PointerEvent<HTMLDivElement>) => {
-    event.currentTarget.style.removeProperty('--card-x');
-    event.currentTarget.style.removeProperty('--card-y');
-    art.current?.style.setProperty('--tilt-x', '0deg');
-    art.current?.style.setProperty('--tilt-y', '0deg');
-  };
-
-  const handleOpenPreview = (e: React.MouseEvent) => {
-    if (!screenshot) return;
-    e.preventDefault();
-    onOpenLightbox({
-      url: screenshot.url,
-      alt: screenshot.alt,
-      title: project.name.value || 'Project Showcase',
-      subtitle: direction.subtitle,
-      tech: project.techStack.value || [],
-    });
-  };
-
-  return (
-    <FadeIn>
-      <article className={'project-showcase project-' + index}>
-        <div className="project-visual spotlight-card" onPointerMove={move} onPointerLeave={reset}>
-          {screenshot ? (
-            <div className="project-screenshot">
-              <div className="screenshot-spotlight" aria-hidden="true" />
-              <div className="screenshot-topline">
-                <span>
-                  <i /> {project.name.value}
-                </span>
-                <span>{direction.word}</span>
-              </div>
-              <a
-                href={screenshot.url}
-                onClick={handleOpenPreview}
-                aria-label={'Open preview for ' + project.name.value}
-              >
-                <img src={screenshot.url} alt={screenshot.alt} loading="lazy" decoding="async" />
-              </a>
-              <div className="screenshot-bottomline">
-                <span>{direction.subtitle}</span>
-                <button
-                  type="button"
-                  className="preview-trigger-btn"
-                  onClick={handleOpenPreview}
-                  title="Expand high-res preview"
-                >
-                  View preview ↗
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="project-art" ref={art} aria-hidden="true">
-              <div className="art-topline">
-                <span>{direction.word}</span>
-                <span>↗</span>
-              </div>
-              <div className="art-scene">
-                {index === 0 && (
-                  <>
-                    <div className="product-plinth" />
-                    <div className="sculpted-vase">
-                      <i /><i /><i /><i /><i /><i /><i />
-                    </div>
-                    <span className="art-big-word">
-                      form<br />&amp; function.
-                    </span>
-                    <div className="art-specimen">
-                      OBJECT NO. 001<br />EVERYDAY / EXTRAORDINARY
-                    </div>
-                  </>
-                )}
-                {index === 1 && (
-                  <>
-                    <div className="record-sleeve">
-                      <span>PLAY<br /><em>IT LOUD.</em></span>
-                    </div>
-                    <div className="vinyl"><i /><b>ss</b></div>
-                    <div className="sound-bars">
-                      {Array.from({ length: 18 }, (_, n) => (
-                        <i key={n} style={{ height: 8 + ((n * 13) % 41) }} />
-                      ))}
-                    </div>
-                  </>
-                )}
-                {index === 3 && (
-                  <>
-                    <div className="portfolio-window">
-                      <div><i /><i /><i /></div>
-                      <strong>Always<br /><em>in progress.</em></strong>
-                      <span>DESIGN. DEVELOP. REPEAT.</span>
-                      <b>↗</b>
-                    </div>
-                    <span className="portfolio-star">✳</span>
-                  </>
-                )}
-              </div>
-              <div className="art-bottomline">
-                <span>{direction.subtitle}</span>
-                <span>0{index + 1} / 04</span>
-              </div>
-            </div>
-          )}
-          <span className="visual-caption">
-            {screenshot
-              ? 'Actual application screenshot · development build'
-              : 'Art direction study · not a project screenshot'}
-          </span>
-        </div>
-        <div className="project-information">
-          <div className="project-number">
-            <span>0{index + 1}</span>
-            <span className="eyebrow">{direction.label}</span>
-          </div>
-          <h3>{project.name.value}</h3>
-          <p className="project-hook">{direction.title}</p>
-          {project.status?.value && (
-            <span className="project-status">
-              <i />
-              {project.status.value}
-            </span>
-          )}
-          {project.summary?.value && <p className="project-summary">{project.summary.value}</p>}
-          <div className="tag-list">
-            {project.techStack.value?.map(tag => (
-              <motion.span
-                key={tag}
-                whileHover={reduced ? undefined : { y: -2, scale: 1.05 }}
-                transition={{ duration: 0.15 }}
-              >
-                {tag}
-              </motion.span>
-            ))}
-          </div>
-          {project.features.value && (
-            <ul className="project-capabilities" aria-label="Project capabilities">
-              {project.features.value.map(feature => (
-                <li key={feature}>{feature}</li>
-              ))}
-            </ul>
-          )}
-          <button
-            className="project-toggle"
-            type="button"
-            onClick={() => setExpanded(value => !value)}
-            aria-expanded={expanded}
-            aria-controls={'details-' + project.id}
-          >
-            <span>{expanded ? 'Close overview' : 'Project overview'}</span>
-            <span aria-hidden="true">{expanded ? '−' : '+'}</span>
-          </button>
-          <AnimatePresence initial={false}>
-            {expanded && (
-              <motion.div
-                id={'details-' + project.id}
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: reduced ? 0 : 0.3 }}
-                className="project-details"
-              >
-                <p>{project.description.value}</p>
-                {project.sourceUrl.value && (
-                  <a href={project.sourceUrl.value} target="_blank" rel="noopener noreferrer">
-                    Source code ↗
-                  </a>
-                )}
-                {project.liveUrl.value && (
-                  <a href={project.liveUrl.value} target="_blank" rel="noopener noreferrer">
-                    Live project ↗
-                  </a>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </article>
-    </FadeIn>
-  );
+  const reset = () => { art.current?.style.setProperty('--tilt-x', '0deg'); art.current?.style.setProperty('--tilt-y', '0deg'); };
+  return <FadeIn><article className={`project-showcase project-${index}`} id={'project-' + project.id}>
+    <div className="project-heading-row"><span className="project-index">0{index + 1}</span><h3>{project.name.value}</h3><span className="project-discipline">{disciplines[index]}</span></div>
+    <div className="project-visual" onPointerMove={move} onPointerLeave={reset}>
+      <div className="project-stage" ref={art}>
+        <span className="stage-word" aria-hidden="true">{['CONVERSE', 'ANTICIPATE', 'OBSERVE', 'CALCULATE'][index]}</span>
+        {screenshot ? <button className="project-capture" type="button" aria-label={'Open preview for ' + project.name.value} onClick={() => onPreview({ url: screenshot.url, alt: screenshot.alt, title: project.name.value || 'Project', subtitle: disciplines[index], tech: project.techStack.value || [] })}><img src={screenshot.url} alt={screenshot.alt} loading="lazy" decoding="async" /><span className="capture-action">Inspect screenshot ↗</span></button> : <div className="project-placeholder">Project imagery coming soon</div>}
+        <span className="stage-foot">{screenshot ? 'Actual application / Development build' : 'In progress'}</span>
+        <span className="stage-index" aria-hidden="true">S / 0{index + 1}</span>
+      </div>
+    </div>
+    <div className="project-information">
+      <div><span className="project-status">{project.status?.value}</span><p className="project-summary">{project.summary?.value}</p><div className="tag-list">{project.techStack.value?.map(tag => <span key={tag}>{tag}</span>)}</div></div>
+      <div>{project.features.value && <ul className="project-capabilities">{project.features.value.map(feature => <li key={feature}>{feature}</li>)}</ul>}
+      <details className="project-overview"><summary>Inside the project <span aria-hidden="true">+</span></summary><div className="project-details"><p>{project.description.value}</p>{project.sourceUrl.value && <a href={project.sourceUrl.value} target="_blank" rel="noopener noreferrer">Source code ↗</a>}{project.liveUrl.value && <a href={project.liveUrl.value} target="_blank" rel="noopener noreferrer">Live project ↗</a>}</div></details></div>
+    </div>
+  </article></FadeIn>;
 }
-
 export const ProjectsSection = () => {
-  const [activeLightbox, setActiveLightbox] = useState<LightboxData | null>(null);
-
-  return (
-    <>
-      <section id="projects" className="projects-section section-shell">
-        <div className="section-kicker">
-          <span className="eyebrow">02 / Some things I’ve built</span>
-          <span className="eyebrow">Selected work / 04</span>
-        </div>
-        <div className="projects-heading">
-          <h2>
-            Built to work.
-            <br />
-            <span className="serif-word">Made to feel.</span>
-          </h2>
-          <p>
-            Different projects. The same curiosity.
-            <br />
-            From computer vision to predictive tools.
-          </p>
-        </div>
-        <div className="project-list">
-          {content.projects.map((project, index) => (
-            <ProjectShowcase
-              key={project.id}
-              project={project}
-              index={index}
-              onOpenLightbox={setActiveLightbox}
-            />
-          ))}
-        </div>
-      </section>
-      <LightboxModal item={activeLightbox} onClose={() => setActiveLightbox(null)} />
-    </>
-  );
+  const [preview, setPreview] = useState<LightboxData | null>(null);
+  return <><section id="projects" className="projects-section section-shell">
+    <div className="section-kicker"><span className="eyebrow">02 / Selected work</span><span className="eyebrow">A few things I've put into the world</span></div>
+    <div className="projects-heading"><h2>Proof of<br /><span className="serif-word">curiosity.</span></h2><div className="work-counter">({String(content.projects.length).padStart(2, '0')})<span>Projects & experiments<br />Scroll to explore ↓</span></div></div>
+    <nav className="project-directory" aria-label="Project index">{content.projects.map((project, index) => <a key={project.id} href={'#project-' + project.id}><span>0{index + 1}</span>{project.name.value}<span>↘</span></a>)}</nav>
+    <div className="project-list">{content.projects.map((project, index) => <ProjectShowcase key={project.id} project={project} index={index} onPreview={setPreview} />)}</div>
+  </section><LightboxModal item={preview} onClose={() => setPreview(null)} /></>;
 };
