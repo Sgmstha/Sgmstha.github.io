@@ -6,6 +6,7 @@ import { sections } from '../../data/sections';
 import type { SceneStatus } from '../scene/SceneLayer';
 import type { SculptureMode } from '../scene/SculptureCanvas';
 import { Magnetic } from '../ui/Magnetic';
+import { reportExploreClick, reportLabSwitch } from '../scene/avatarState';
 
 const SpatialStudioModal = lazy(() =>
   import('../scene/SpatialStudioModal').then(m => ({ default: m.SpatialStudioModal }))
@@ -98,7 +99,7 @@ export const HeroSection = ({
             ))}
         </nav>
         <Magnetic strength={0.25}>
-          <a className="header-contact" href="#contact">
+          <a className="header-contact" id="hero-lets-talk-btn" href="#contact">
             Let’s talk <span>↗</span>
           </a>
         </Magnetic>
@@ -155,7 +156,11 @@ export const HeroSection = ({
             </p>
           </div>
           <Magnetic strength={0.35}>
-            <a className="button button-primary shimmer-button" href="#projects">
+            <a
+              className="button button-primary shimmer-button"
+              href="#projects"
+              onClick={() => reportExploreClick()}
+            >
               <span className="shimmer-highlight" aria-hidden="true" />
               <span>Explore selected work</span>
               <span className="button-arrow">↗</span>
@@ -184,7 +189,10 @@ export const HeroSection = ({
                     key={mode}
                     type="button"
                     className={`mode-tab ${sculptureMode === mode ? 'active' : ''}`}
-                    onClick={() => onModeChange(mode)}
+                    onClick={() => {
+                      onModeChange(mode);
+                      reportLabSwitch(mode);
+                    }}
                   >
                     {mode.toUpperCase()}
                   </button>
@@ -192,7 +200,10 @@ export const HeroSection = ({
                 <button
                   type="button"
                   className="mode-tab mode-tab-xr"
-                  onClick={() => setStudioOpen(true)}
+                  onClick={() => {
+                    setStudioOpen(true);
+                    reportLabSwitch('xr');
+                  }}
                   title="Open WebXR & 3D Spatial Studio"
                 >
                   ✦ XR LAB

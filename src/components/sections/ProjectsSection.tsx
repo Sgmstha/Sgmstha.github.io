@@ -6,6 +6,7 @@ import type { Project } from '../../data/content';
 import { FadeIn } from '../ui/FadeIn';
 import { LightboxModal } from '../ui/LightboxModal';
 import type { LightboxData } from '../ui/LightboxModal';
+import { reportProjectHover, useAvatarState } from '../scene/avatarState';
 
 const directions = [
   { title: 'From conversation to code.', label: 'AI / Developer Tool', word: 'AI CODER', subtitle: 'Codebase analysis & patches.' },
@@ -28,6 +29,7 @@ function ProjectShowcase({
   const reduced = useReducedMotion();
   const direction = directions[index];
   const screenshot = project.images.value && 'url' in project.images.value ? project.images.value : null;
+  const { setTemporaryState } = useAvatarState();
 
   const move = (event: PointerEvent<HTMLDivElement>) => {
     if (reduced || event.pointerType !== 'mouse') return;
@@ -64,7 +66,22 @@ function ProjectShowcase({
   return (
     <FadeIn>
       <article className={'project-showcase project-' + index}>
-        <div className="project-visual spotlight-card" onPointerMove={move} onPointerLeave={reset}>
+        <div
+          className="project-visual spotlight-card"
+          onPointerEnter={() => {
+            setTemporaryState('happy', 2000);
+            reportProjectHover(project.id);
+          }}
+          onPointerDown={() => {
+            setTemporaryState('happy', 2000);
+            reportProjectHover(project.id);
+          }}
+          onPointerMove={move}
+          onPointerLeave={(e) => {
+            reset(e);
+            reportProjectHover(null);
+          }}
+        >
           {screenshot ? (
             <div className="project-screenshot">
               <div className="screenshot-spotlight" aria-hidden="true" />
