@@ -66,7 +66,7 @@ export interface UseAvatarBrainReturn {
   isMuted: boolean;
   dismissMessage: () => void;
   toggleMute: () => void;
-  triggerMessage: (message: AvatarMessage, priority?: number) => boolean;
+  triggerMessage: (message: AvatarMessage, options?: { bypassCooldown?: boolean }) => boolean;
   triggerGroup: (group: MessageGroup, options?: { bypassCooldown?: boolean }) => boolean;
 }
 
@@ -97,10 +97,11 @@ export function useAvatarBrain(): UseAvatarBrainReturn {
 
   // Fast scroll tracking
   const recentSectionTransitionsRef = useRef<number[]>([]);
-  const scrollFastUsedRef = useRef<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return sessionStorage.getItem(SCROLL_FAST_SESSION_KEY) === 'true';
-  });
+  const scrollFastUsedRef = useRef<boolean>(
+    typeof window !== 'undefined'
+      ? sessionStorage.getItem(SCROLL_FAST_SESSION_KEY) === 'true'
+      : false
+  );
 
   const clearDismissTimer = useCallback(() => {
     if (dismissTimerRef.current) {
